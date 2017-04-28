@@ -5,16 +5,21 @@
 set -v -e
 
 # Generate the -I directives to include the parent directories of the
-# ableC and extension specification directories.
+# test, ableC, and extension specification directories.
 
-HOME=../../../../..
-ABLEC=$HOME/ableC
-EXTS=$HOME/extensions/* # Include all extensions in search path
+EXT_HOME=../..          # Top-level of extension repository
+HOME=$EXT_HOME/../..    # Directory containing ableC and extensions directories
+ABLEC=$HOME/ableC       # ableC repository
+EXTS=$HOME/extensions/* # All extension repositories
 
-INCLUDES=($ABLEC $EXTS)
+INCLUDES=($EXT_HOME $ABLEC $EXTS)
+
+# Needed to force a rebuild of *this* grammar, since there may be other
+# grammars named modular_analyses:determinism
+touch MDA.sv
 
 silver ${INCLUDES[@]/#/-I } -o MDA.jar --clean $@ \
-       edu:umn:cs:melt:exts:ableC:skeleton:modular_analyses:determinism
+       modular_analyses:determinism
 
 # This script runs Silver on the grammar that performs the modular
 # determinism analysis.  A fair amount of information is displayed to
