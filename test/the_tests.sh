@@ -5,8 +5,8 @@ set -e
 # turn on verbose option, which echos commands to stdout
 set -v
 
-# cd to top of extension directory.
-cd ../
+# cd to the top of the grammars directory
+cd ../edu.umn.cs.melt.exts.ableC.skeleton
 
 #
 # Build: building the artifact
@@ -33,7 +33,7 @@ pwd
 cd ../../
 
 # positive tests
-cd test/positive
+cd ../test/positive
 pwd
 ./the_tests.sh
 cd ../../

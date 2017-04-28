@@ -6,7 +6,7 @@
 # Of course, if the use of 'cut' below fails for you, then just run
 # the commands individually by hand.
 
-java -jar ../../artifact/ableC.jar $1
+java -jar ../../edu.umn.cs.melt.exts.ableC.skeleton/artifact/ableC.jar $1
 
 # extract the base filename, everything before the dot (.)
 

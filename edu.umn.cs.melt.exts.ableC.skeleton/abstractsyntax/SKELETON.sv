@@ -1,4 +1,4 @@
-grammar edu:umn:cs:melt:exts:ableC:skeleton:src:abstractsyntax;
+grammar edu:umn:cs:melt:exts:ableC:skeleton:abstractsyntax;
 
 imports edu:umn:cs:melt:ableC:abstractsyntax;
 
