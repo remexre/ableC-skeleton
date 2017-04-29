@@ -1,4 +1,4 @@
-grammar modular_analyses:determinism;
+grammar determinism;
 
 import edu:umn:cs:melt:ableC:host;
 
