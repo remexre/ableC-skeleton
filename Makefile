@@ -1,20 +1,24 @@
 
-all: examples
+all: examples analyses test
 
 examples:
-	cd examples && make -j
+	@cd examples && make -j
 
 analyses: mda mwda
 
 mda:
-	cd modular_analyses && make mda
+	@cd modular_analyses && make mda
 
 mwda:
-	cd modular_analyses && make mda
+	@cd modular_analyses && make mwda
+
+test:
+	@cd test && make -ij
 
 clean:
 	rm -f *~ 
-	cd examples && make clean
-	cd modular_analyses && make clean
+	@cd examples && make clean
+	@cd modular_analyses && make clean
+	@cd test && make clean
 
-.PHONY: all examples clean
+.PHONY: all examples analyses mda mwda test clean
