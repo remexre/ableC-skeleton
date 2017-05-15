@@ -1,6 +1,9 @@
 
 all: examples analyses test
 
+build:
+	@cd examples && make ableC.jar
+
 examples:
 	@cd examples && make -j
 
