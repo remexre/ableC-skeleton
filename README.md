@@ -19,8 +19,8 @@ extension does in fact pass the modular analyses.
 The `tests` directory contains some positive and negative tests of
 various features of the extension.  
 
-Header files and libraries used by an extension are placed in the
-`include` and `lib` directories, respectively.  
+Header files, library source files, and libraries used by an extension
+are placed in the `include`, `src`,  and `lib` directories, respectively.  
 
 At the top level, another `Makefile` is provided to allow examples,
 modular analyses, and tests to be easily built.  
