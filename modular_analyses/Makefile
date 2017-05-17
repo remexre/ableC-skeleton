@@ -1,6 +1,8 @@
-
+# Top-level directory containing ableC repository and extensions folder
 EXT_HOME=../../..
+# All directories containing grammars that may be included
 GRAMMAR_DIRS=$(wildcard $(EXT_HOME)/extensions/*/grammars) $(EXT_HOME)/ableC
+# Flags passed to silver including the appropriate directories
 SVFLAGS=$(addprefix -I , $(GRAMMAR_DIRS))
 
 all: mda mwda
