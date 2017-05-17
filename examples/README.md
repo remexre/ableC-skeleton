@@ -1,10 +1,10 @@
-# Examples of the `skeleton` extension.
+This directory contains files to build an instance of ableC extended
+with this 'skeleton' extension.
 
-The `skeleton.xc` file has an example use of the extension.
+This artifact may then be used on the examples in investigating how
+the extension work.  It may also be used in testing that the extension
+works properly - though there is no real testing to do for this silly
+extension.
 
-To compile it, first build the ableC instance in the `artifact`
-directory and then run the `compile.sh` script
-```
-% ./compile.sh skeleton.xc
-```
-This results in an `a.out` that can be run.
+To build the examples, run `make`.  This will compile the grammars to
+produce a jar, and use this to translate, compile, and run the examples.
