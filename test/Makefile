@@ -6,7 +6,7 @@ ABLEC_JAR=ableC.jar
 # The artifact specification grammar to compile
 ARTIFACT=artifact
 # All directories containing grammars that may be included
-GRAMMAR_DIRS=$(wildcard $(EXT_HOME)/extensions/*/grammars) $(EXT_HOME)/ableC
+GRAMMAR_DIRS=$(ARTIFACT) $(wildcard $(EXT_HOME)/extensions/*/grammars) $(EXT_HOME)/ableC
 # All silver files in included grammars, to be included as dependancies
 GRAMMAR_SOURCES=$(shell find $(GRAMMAR_DIRS) -name *.sv -print0 | xargs -0)
 # Flags passed to silver including the appropriate directories
