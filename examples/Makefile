@@ -23,14 +23,20 @@ EXECUTABLES=$(XC_FILES:.xc=.out)
 # All evaluation marker files that should be generated
 TESTS=$(XC_FILES:.xc=.test)
 
+# All directories contining extension header files that may be included
 XC_INCLUDE_DIRS=$(wildcard $(EXT_HOME)/extensions/*/include)
+# Flags passed to ableC including the appropriate directories
 XCFLAGS=$(addprefix -I, $(XC_INCLUDE_PATH))
 
-CFLAGS= #-fwhatever
+# Flags passed to the C compiler, e.g. to enable various compiler extensions
+CFLAGS=
 
+# All directories contining extension libraries that may be linked
 LIB_DIRS=$(wildcard $(EXT_HOME)/extensions/*/lib)
+# Flags passed to the linker specifying the appropriate directories
 LDFLAGS=$(addprefix -L, $(LIB_DIRS))
-LDLIBS= #-lwhatever
+# Flags passed to the linker specifying libraries to link
+LDLIBS=
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 

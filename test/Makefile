@@ -30,10 +30,15 @@ XC_INCLUDE_DIRS=$(wildcard $(EXT_HOME)/extensions/*/include)
 # Flags passed to ableC including the appropriate directories
 XCFLAGS=$(addprefix -I, $(XC_INCLUDE_PATH))
 
+# Flags passed to the C compiler, e.g. to enable various compiler extensions
+CFLAGS=
+
 # All directories contining extension libraries that may be linked
 LIB_DIRS=$(wildcard $(EXT_HOME)/extensions/*/lib)
 # Flags passed to the linker specifying the appropriate directories
-LDLIBS=$(addprefix -L, $(LIB_DIRS))
+LDFLAGS=$(addprefix -L, $(LIB_DIRS))
+# Flags passed to the linker specifying libraries to link
+LDLIBS=
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 
