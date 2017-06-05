@@ -26,8 +26,11 @@ TESTS=$(XC_FILES:.xc=.test)
 XC_INCLUDE_DIRS=$(wildcard $(EXT_HOME)/extensions/*/include)
 XCFLAGS=$(addprefix -I, $(XC_INCLUDE_PATH))
 
+CFLAGS= #-fwhatever
+
 LIB_DIRS=$(wildcard $(EXT_HOME)/extensions/*/lib)
-LDLIBS=$(addprefix -L, $(LIB_DIRS))
+LDFLAGS=$(addprefix -L, $(LIB_DIRS))
+LDLIBS= #-lwhatever
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 
