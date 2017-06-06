@@ -1,7 +1,11 @@
-# Top-level directory containing ableC repository and extensions folder
-EXT_HOME=../../..
+
+# Path from current directory to top level ableC repository
+ABLEC_BASE?=../../../ableC
+# Path from current directory to top level extensions directory
+EXTS_BASE?=../../../extensions
+
 # All directories containing grammars that may be included
-GRAMMAR_DIRS=$(wildcard $(EXT_HOME)/extensions/*/grammars) $(EXT_HOME)/ableC
+GRAMMAR_DIRS=$(ABLEC_BASE) $(wildcard $(EXTS_BASE)/*/grammars) .
 # Flags passed to silver including the appropriate directories
 SVFLAGS=$(addprefix -I , $(GRAMMAR_DIRS))
 
