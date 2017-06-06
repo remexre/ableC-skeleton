@@ -49,27 +49,13 @@ node {
      * otherwise prepend full path to workspace */
     def ablec_base = (ABLEC_BASE == 'ableC') ? "${WORKSPACE}/${ABLEC_BASE}" : ABLEC_BASE
     def include_grammars = "-I ${ablec_base} -I ${WORKSPACE}/grammars"
-    def env = [
-      "PATH=${SILVER_BASE}/support/bin/:${env.PATH}",
-      "ABLEC_BASE=${ablec_base}",
-      "EXTS_BASE=${WORKSPACE}/extensions"
-    ]
 
     /* stages are pretty much just labels about what's going on */
     stage ("Build") {
       /* don't check out extension under ableC_Home because doing so would allow
        * the Makefiles to find ableC with the included search paths, but we want
        * to explicitly specify the path to ableC according to ABLEC_BASE */
-    checkout([ $class: 'GitSCM',
-               branches: scm.branches,
-               doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-               extensions: [
-                 [ $class: 'RelativeTargetDirectory',
-                   relativeTargetDir: "extensions/ableC-condition-tables"]
-                 ],
-               submoduleCfg: scm.submoduleCfg,
-               userRemoteConfigs: scm.userRemoteConfigs
-             ])
+      checkout scm
 
       checkout([ $class: 'GitSCM',
                  branches: [[name: '*/develop']],
@@ -85,34 +71,37 @@ node {
                ])
 
       /* env.PATH is the master's path, not the executor's */
-      withEnv(env) {
-        dir("extensions/ableC-condition-tables") {
-          sh "make build"
+      withEnv(["PATH=${SILVER_BASE}/support/bin/:${env.PATH}"]) {
+        dir("examples") {
+          sh "silver -G ${WORKSPACE} -o ableC.jar ${include_grammars} artifact"
         }
+	// sh "make build" - doesn't work
       }
     }
     
     stage ("Examples") {
-      withEnv(env) {
-        dir("extensions/ableC-condition-tables") {
-          sh "make examples"
-        }
+      withEnv(["PATH=${SILVER_BASE}/support/bin/:${env.PATH}"]) {
+        sh "make examples"
       }
     }
 
     stage ("Modular Analyses") {
-      withEnv(env) {
-        dir("extensions/ableC-condition-tables") {
-          sh "make analyses"
+      withEnv(["PATH=${SILVER_BASE}/support/bin/:${env.PATH}"]) {
+        dir("modular_analyses") {
+          sh "silver -G ${WORKSPACE} -o MDA.jar ${include_grammars} --clean determinism"
+          sh "silver -G ${WORKSPACE} -o MWDA.jar ${include_grammars} --clean --warn-all --warn-error well_definedness"
         }
+	// sh "make analyses"
       }
     }
 
     stage ("Test") {
-      withEnv(env) {
-        dir("extensions/ableC-condition-tables") {
-          sh "make test"
+      withEnv(["PATH=${SILVER_BASE}/support/bin/:${env.PATH}"]) {
+        dir("test") {
+          sh "silver -G ${WORKSPACE} -o ableC.jar ${include_grammars} artifact"
+          sh "make"
         }
+	// sh "make test"
       }
     }
   }
@@ -166,7 +155,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
   emailext(
     subject: subject,
     body: details,
-//    to: 'evw@umn.edu',
+    to: 'evw@umn.edu',
     recipientProviders: [[$class: 'CulpritsRecipientProvider']]
   )
 }
