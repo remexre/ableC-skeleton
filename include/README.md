@@ -1,1 +1,1 @@
-This extension does not include header files, but if it did they would be placed here.  
+This is where the extension's header files live.

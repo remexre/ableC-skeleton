@@ -1,19 +1,10 @@
-
 # Path from current directory to top level ableC repository
 ABLEC_BASE?=../../../ableC
 # Path from current directory to top level extensions directory
 EXTS_BASE?=../../../extensions
 
-# The jar file to built
-ABLEC_JAR=ableC.jar
-# The artifact specification grammar to compile
-ARTIFACT=artifact
-# All directories containing grammars that may be included
-GRAMMAR_DIRS=$(ABLEC_BASE) $(wildcard $(EXTS_BASE)/*/grammars)
-# All silver files in included grammars, to be included as dependancies
-GRAMMAR_SOURCES=$(shell find $(GRAMMAR_DIRS) -name *.sv -print0 | xargs -0)
-# Flags passed to silver including the appropriate directories
-SVFLAGS=$(addprefix -I , $(GRAMMAR_DIRS))
+# The path to the artifact ableC jar.
+ABLEC_JAR=../examples/artifact/ableC.jar
 
 # All extended C files to test
 XC_FILES=$(wildcard translate_error/*.xc) $(wildcard runtime_error/*.xc) $(wildcard positive/*.xc)
@@ -45,9 +36,11 @@ LDLIBS=
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 
-$(ABLEC_JAR): $(GRAMMAR_SOURCES)
-	touch $(wildcard $(ARTIFACT)/*.sv)
-	silver -o $(ABLEC_JAR) $(SVFLAGS) $(ARTIFACT)
+# This is marked as being phony even though it's a real file so that the
+# Makefile in examples always checks for its source files being modified.
+.PHONY: $(ABLEC_JAR)
+$(ABLEC_JAR):
+	@cd ../examples && make ableC.jar
 
 %.c: %.xc $(ABLEC_JAR)
 	java -jar $(ABLEC_JAR) $< $(XCFLAGS)
