@@ -1,3 +1,4 @@
+
 # Path from current directory to top level ableC repository
 ABLEC_BASE?=../../../ableC
 # Path from current directory to top level extensions directory
@@ -33,6 +34,8 @@ LIB_DIRS=$(wildcard $(EXTS_BASE)/*/lib)
 LDFLAGS=$(addprefix -L, $(LIB_DIRS))
 # Flags passed to the linker specifying libraries to link
 LDLIBS=
+# The static library to link. TODO This one isn't hugely possible to clip out
+STATIC_LIBRARY=../lib/libSkeleton.a
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 
@@ -42,11 +45,16 @@ all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 $(ABLEC_JAR):
 	@cd ../examples && make ableC.jar
 
+# This is marked as being phony for the same reasons as the above.
+.PHONY: $(STATIC_LIBRARY)
+$(STATIC_LIBRARY):
+	@cd ../lib && make
+
 %.c: %.xc $(ABLEC_JAR)
 	java -jar $(ABLEC_JAR) $< $(XCFLAGS)
 
-%.out: %.o
-	$(CC) $(LDFLAGS) $< $(LOADLIBES) $(LDLIBS) -o $@
+%.out: %.o $(STATIC_LIBRARY)
+	$(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 translate_error/%.test: translate_error/%.xc $(ABLEC_JAR)
 	@echo "java -jar $(ABLEC_JAR) $< $(XCFLAGS)"

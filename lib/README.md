@@ -1,1 +1,1 @@
-This is the directory where the extension's shared library is placed.
+This extension includes the source files for the shared library.

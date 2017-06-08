@@ -29,7 +29,7 @@ clean:
 	rm -f *~ 
 	@cd examples && $(MAKE) clean
 	@cd modular_analyses && $(MAKE) clean
-	@cd src && $(MAKE) clean
+	@cd lib && $(MAKE) clean
 	@cd test && $(MAKE) clean
 
 .PHONY: all examples analyses mda mwda test clean

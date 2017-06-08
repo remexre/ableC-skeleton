@@ -39,7 +39,9 @@ LIB_DIRS=$(wildcard $(EXTS_BASE)/*/lib)
 # Flags passed to the linker specifying the appropriate directories
 LDFLAGS=$(addprefix -L, $(LIB_DIRS))
 # Flags passed to the linker specifying libraries to link
-LDLIBS=-lSkeleton
+LDLIBS=
+# The static library to link. TODO This one isn't hugely possible to clip out
+STATIC_LIBRARY=../lib/libSkeleton.a
 
 all: $(ABLEC_JAR) $(C_FILES) $(OBJECTS) $(EXECUTABLES) $(TESTS)
 
@@ -49,16 +51,16 @@ $(ABLEC_JAR): $(GRAMMAR_SOURCES)
 	silver -o $@ $(SVFLAGS) $(ARTIFACT)
 
 # This is marked as being phony even though it's a real file so that the
-# Makefile in src always checks for its source files being modified.
-.PHONY: ../lib/libSkeleton.so
-../lib/libSkeleton.so:
-	@cd ../src && make
+# Makefile in lib always checks for its source files being modified.
+.PHONY: $(STATIC_LIBRARY)
+$(STATIC_LIBRARY):
+	@cd ../lib && make
 
 %.c: %.xc $(ABLEC_JAR)
 	java -jar $(ABLEC_JAR) $< $(XCFLAGS)
 
-%.out: %.o ../lib/libSkeleton.so
-	$(CC) $(LDFLAGS) $(LOADLIBES) $(LDLIBS) $< -o $@
+%.out: %.o $(STATIC_LIBRARY)
+	$(CC) $(LDFLAGS) $(LOADLIBES) $(LDLIBS) $^ -o $@
 
 %.test: %.out
 	@echo "Running $<..."
