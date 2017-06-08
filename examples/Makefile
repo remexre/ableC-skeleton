@@ -9,7 +9,7 @@ ABLEC_JAR=ableC.jar
 # The artifact specification grammar to compile
 ARTIFACT=artifact
 # All directories containing grammars that may be included
-GRAMMAR_DIRS=$(ABLEC_BASE) $(wildcard $(EXTS_BASE)/*/grammars) .
+GRAMMAR_DIRS=$(ABLEC_BASE) $(wildcard $(EXTS_BASE)/*/grammars)
 # All silver files in included grammars, to be included as dependancies
 GRAMMAR_SOURCES=$(shell find $(GRAMMAR_DIRS) -name *.sv -print0 | xargs -0)
 # Flags passed to silver including the appropriate directories
@@ -29,7 +29,7 @@ TESTS=$(XC_FILES:.xc=.test)
 # All directories contining extension header files that may be included
 XC_INCLUDE_DIRS=$(wildcard $(EXTS_BASE)/*/include)
 # Flags passed to ableC including the appropriate directories
-XCFLAGS=$(addprefix -I, $(XC_INCLUDE_PATH))
+XCFLAGS=$(addprefix -I, $(XC_INCLUDE_DIRS))
 
 # Flags passed to the C compiler, e.g. to enable various compiler extensions
 CFLAGS=

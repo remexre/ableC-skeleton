@@ -4,7 +4,7 @@ ABLEC_BASE?=../../ableC
 # Path from current directory to top level extensions directory
 EXTS_BASE?=../../extensions
 
-MAKE=make ABLEC_BASE=../$(ABLEC_BASE) EXTS_BASE=../$(EXTS_BASE)
+MAKEOVERRIDES=ABLEC_BASE=$(abspath $(ABLEC_BASE)) EXTS_BASE=$(abspath $(EXTS_BASE))
 
 all: examples analyses test
 
@@ -23,7 +23,7 @@ mwda:
 	@cd modular_analyses && $(MAKE) mwda
 
 test:
-	@cd test && $(MAKE) -ij
+	@cd test && $(MAKE) -kj
 
 clean:
 	rm -f *~ 
