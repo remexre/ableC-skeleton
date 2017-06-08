@@ -5,7 +5,7 @@ ABLEC_BASE?=../../../ableC
 EXTS_BASE?=../../../extensions
 
 # The path to the artifact ableC jar.
-ABLEC_JAR=../examples/artifact/ableC.jar
+ABLEC_JAR=../examples/ableC.jar
 
 # All extended C files to test
 XC_FILES=$(wildcard translate_error/*.xc) $(wildcard runtime_error/*.xc) $(wildcard positive/*.xc)
