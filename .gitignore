@@ -7,9 +7,11 @@ build.xml
 *.copperdump.html
 *.jar
 
+# Generated C files
+examples/*.c
+
 # Other files
 *.a
-*.c
 *.i
 *.o
 *.out
